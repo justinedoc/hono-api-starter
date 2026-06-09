@@ -1,0 +1,42 @@
+{
+  "name": "hono-api-starter",
+  "type": "module",
+  "version": "1.0.0",
+  "author": {
+    "name": "Justin Ifeanyi Onyiriuka",
+    "email": "justinifeanyi@gmail.com",
+    "url": "https://github.com/justinedoc"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "biome lint --fix",
+    "format": "biome format --fix",
+    "check": "biome check",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.4",
+    "@hono/zod-openapi": "^1.4.0",
+    "@neondatabase/serverless": "^1.1.0",
+    "@scalar/hono-api-reference": "^0.11.0",
+    "better-auth": "^1.6.15",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "drizzle-zod": "^0.8.3",
+    "hono": "^4.12.24",
+    "hono-pino": "^0.10.3",
+    "pino": "^10.3.1",
+    "stoker": "^2.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.16",
+    "@types/node": "^25.9.2",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,30 @@
+import type { OpenAPIHono, RouteConfig, RouteHandler } from "@hono/zod-openapi";
+import type { Logger } from "pino";
+import type { auth } from "@/core/lib/auth";
+
+type AuthType = typeof auth;
+
+export type AuthSession = AuthType["$Infer"]["Session"];
+
+export type AppBindings = {
+	Variables: {
+		logger: Logger;
+
+		user: AuthSession["user"] | null;
+		session: AuthSession["session"] | null;
+	};
+};
+
+export type AppOpenAPI = OpenAPIHono<AppBindings>;
+
+export type AppRouteHandler<R extends RouteConfig> = RouteHandler<
+	R,
+	AppBindings
+>;
+
+export type ServiceContext = {
+	user: AuthSession["user"];
+	logger: Logger;
+};
+
+export type ServiceCtx<T = void> = ServiceContext & { payload: T };
