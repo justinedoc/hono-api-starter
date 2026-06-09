@@ -21,6 +21,7 @@ const baseEnvSchema = z.object({
 
 	RESEND_API_KEY: z.string(),
 
+	SENDER_EMAIL: z.email(),
 	SUPER_ADMIN_EMAIL: z.email(),
 	SUPER_ADMIN_PASSWORD: z.string(),
 });
