@@ -4,6 +4,7 @@ import { pinoLogger as logger } from "hono-pino";
 import pino, { type Level } from "pino";
 
 const baseLogger = pino({
+  name: "app-logger",
 	level: "info",
 	browser: { asObject: true },
 });

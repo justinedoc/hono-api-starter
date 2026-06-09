@@ -23,8 +23,13 @@ export type AppRouteHandler<R extends RouteConfig> = RouteHandler<
 >;
 
 export type ServiceContext = {
-	user: AuthSession["user"];
 	logger: Logger;
+	user?: AuthSession["user"] | null;
+	session?: AuthSession["session"] | null;
 };
 
-export type ServiceCtx<T = void> = ServiceContext & { payload: T };
+export type ProtectedServiceContext = {
+	logger: Logger;
+	user: AuthSession["user"];
+	session: AuthSession["session"];
+};

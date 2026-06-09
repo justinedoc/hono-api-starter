@@ -21,14 +21,17 @@
     "@hono/node-server": "^2.0.4",
     "@hono/zod-openapi": "^1.4.0",
     "@neondatabase/serverless": "^1.1.0",
+    "@paralleldrive/cuid2": "^3.3.0",
     "@react-email/ui": "^6.5.0",
     "@scalar/hono-api-reference": "^0.11.0",
     "better-auth": "^1.6.15",
+    "bullmq": "^5.78.0",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "drizzle-zod": "^0.8.3",
     "hono": "^4.12.24",
     "hono-pino": "^0.10.3",
+    "ioredis": "^5.11.1",
     "pino": "^10.3.1",
     "react": "^19.2.7",
     "react-email": "^6.5.0",
@@ -45,8 +48,9 @@
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
   },
-  "overrides": {
-    "@types/react": "19.2.17",
-    "@types/react-dom": "19.2.17"
+  "pnpm": {
+    "overrides": {
+      "ioredis": "$ioredis"
+    }
   }
 }

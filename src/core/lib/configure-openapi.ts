@@ -2,34 +2,43 @@ import { Scalar } from "@scalar/hono-api-reference";
 import type { AppOpenAPI } from "@/core/lib/types";
 import packageJSON from "../../../package.json";
 
-export default function configureOpenAPI(app: AppOpenAPI) {
-	app.openAPIRegistry.registerComponent("securitySchemes", "BearerAuth", {
+export default function configureOpenAPI(router: AppOpenAPI, version: string) {
+	router.openAPIRegistry.registerComponent("securitySchemes", "BearerAuth", {
 		type: "http",
 		scheme: "bearer",
 	});
 
-	app.doc("/v1/hono-doc", {
+	const basePath = `/api/${version}`;
+
+	router.doc("/doc", {
 		openapi: "3.1.1",
 		info: {
 			version: packageJSON.version,
-			title: "Project API",
+			title: `Project API ${version.toUpperCase()}`,
 		},
+		servers: [
+			{
+				url: basePath,
+				description: "Local Environment",
+			},
+			{ url: `https://api.example.com${basePath}`, description: "Production" }
+		],
 	});
 
-	app.get(
-		"/v1/reference",
+	router.get(
+		"/reference",
 		Scalar(() => {
 			return {
 				theme: "kepler",
-				pageTitle: "Project Documentation",
+				pageTitle: `Project Documentation ${version.toUpperCase()}`,
 				sources: [
 					{
 						title: "Application API",
-						url: "/api/v1/hono-doc",
+						url: `${basePath}/doc`,
 					},
 					{
 						title: "Authentication API",
-						url: "/api/v1/auth/open-api/generate-schema",
+						url: `${basePath}/auth/open-api/generate-schema`,
 					},
 				],
 				defaultHttpClient: {

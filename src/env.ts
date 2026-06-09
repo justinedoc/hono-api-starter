@@ -14,6 +14,7 @@ const baseEnvSchema = z.object({
 	SERVER_URL: z.url().default("http://localhost:3000"),
 	APP_URL: z.url().default("http://localhost:4321"),
 
+	REDIS_URL: z.string(),
 	DATABASE_URL: z.string(),
 
 	BETTER_AUTH_URL: z.url(),
