@@ -1,27 +1,29 @@
-import type { MiddlewareHandler } from "hono";
-import { env } from "hono/adapter";
 import { pinoLogger as logger } from "hono-pino";
-import pino, { type Level } from "pino";
+import pino from "pino";
+import { env } from "@/env";
+
+const isDev = env.NODE_ENV === "development";
 
 const baseLogger = pino({
-  name: "app-logger",
-	level: "info",
+	name: "app-logger",
+	level: env.LOG_LEVEL,
 	browser: { asObject: true },
+
+	transport: isDev
+		? {
+				target: "pino-pretty",
+				options: {
+					colorize: true,
+					translateTime: "HH:MM:ss Z",
+					ignore: "pid,hostname,name",
+				},
+			}
+		: undefined,
 });
 
-const pinoMiddleware = logger({
+export const pinoLogger = logger({
 	pino: baseLogger,
 	http: {
 		reqId: () => crypto.randomUUID(),
 	},
 });
-
-export function pinoLogger(): MiddlewareHandler {
-	return async (c, next) => {
-		const { LOG_LEVEL } = env<{ LOG_LEVEL: Level }>(c);
-
-		if (LOG_LEVEL) baseLogger.level = LOG_LEVEL;
-
-		return pinoMiddleware(c, next);
-	};
-}
