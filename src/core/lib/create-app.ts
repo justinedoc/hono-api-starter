@@ -69,7 +69,7 @@ export default function createApp() {
 		}),
 	);
 
-	app.use("*", pinoLogger());
+	app.use("*", pinoLogger);
 
 	// TODO: add ratelimiting middleware
 

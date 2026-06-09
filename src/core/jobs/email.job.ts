@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <version conflict in bullmq> */
 import { type Job, Queue, Worker } from "bullmq";
 import { pino } from "pino";
+import { registerWorker } from "@/core/jobs/registry";
 import { redis } from "@/core/redis";
 import { sendNewsletterWelcomeEmail } from "@/modules/newsletter/newsletter.emails";
 
@@ -12,7 +13,7 @@ const backgroundLogger = pino({ name: "background-worker" });
 
 export const emailWorker = new Worker(
 	"email-queue",
-	async (job: Job & { name: "newsletter-welcome-email" | "signup-email" }) => {
+	async (job: Job) => {
 		backgroundLogger.info(`Processing job ${job.id} of type ${job.name}`);
 
 		if (job.name === "newsletter-welcome-email") {
@@ -35,3 +36,5 @@ export const emailWorker = new Worker(
 emailWorker.on("failed", (job, err) => {
 	backgroundLogger.error({ err, jobId: job?.id }, "Job failed");
 });
+
+registerWorker(emailWorker);
