@@ -6,7 +6,7 @@ import { getV1Routes } from "@/versions";
 
 const app = createApp();
 
-app.route("/v1", getV1Routes());
+const routes = app.route("/v1", getV1Routes());
 
 const server = serve(
 	{
@@ -67,4 +67,5 @@ async function gracefulShutdown(signal: string) {
 process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
 
+export type AppType = typeof routes;
 export default app;
