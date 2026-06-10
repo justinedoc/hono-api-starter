@@ -27,33 +27,7 @@ const baseEnvSchema = z.object({
 	SUPER_ADMIN_PASSWORD: z.string(),
 });
 
-const s3Schema = z.object({
-	STORAGE_PROVIDER: z.literal("s3"),
-	AWS_ACCESS_KEY_ID: z.string(),
-	AWS_SECRET_ACCESS_KEY: z.string(),
-	AWS_REGION: z.string(),
-	AWS_S3_BUCKET_NAME: z.string(),
-	AWS_ENDPOINT_URL_S3: z.url(),
-	AWS_ENDPOINT_URL_IAM: z.url(),
-});
-
-// const r2Schema = z.object({
-// 	STORAGE_PROVIDER: z.literal("cloudflare_r2"),
-// 	CLOUDFLARE_ACCOUNT_ID: z.string(),
-// 	R2_ACCESS_KEY_ID: z.string(),
-// 	R2_SECRET_ACCESS_KEY: z.string(),
-// 	R2_BUCKET_NAME: z.string(),
-// 	R2_PUBLIC_URL: z.url(),
-// });
-
-const storageSchema = z.discriminatedUnion("STORAGE_PROVIDER", [
-	s3Schema,
-	// r2Schema,
-]);
-
-export const envSchema = baseEnvSchema.and(storageSchema);
-
-const parsedEnv = envSchema.safeParse(process.env);
+const parsedEnv = baseEnvSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
 	console.error("Environment Validation Failed!");
@@ -64,5 +38,5 @@ if (!parsedEnv.success) {
 
 console.log("✅ ENVs validated successfully.");
 
-export type Env = z.infer<typeof envSchema>;
+export type Env = z.infer<typeof baseEnvSchema>;
 export const env = parsedEnv.data;
