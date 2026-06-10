@@ -2,6 +2,7 @@ import configureOpenAPI from "@/core/lib/configure-openapi";
 import { createRouter } from "@/core/lib/create-app";
 import adminRouter from "@/modules/admin/admin.router";
 import authRouter from "@/modules/auth/auth.router";
+import contactRouter from "@/modules/contact/contact.router";
 import newsletterRouter from "@/modules/newsletter/newsletter.router";
 
 export function getV1Routes() {
@@ -9,6 +10,7 @@ export function getV1Routes() {
 
 	router.route("/", newsletterRouter);
 	router.route("/", adminRouter);
+	router.route("/", contactRouter);
 
 	router.route("/auth", authRouter);
 

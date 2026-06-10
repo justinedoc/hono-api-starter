@@ -1,10 +1,12 @@
+// src/core/jobs/email.job.ts
 /** biome-ignore-all lint/suspicious/noExplicitAny: <version conflict in bullmq> */
 import { type Job, Queue, Worker } from "bullmq";
 import { pino } from "pino";
 import { registerWorker } from "@/core/jobs/registry";
 import { redis } from "@/core/redis";
-import { sendNewsletterWelcomeEmail } from "@/modules/newsletter/newsletter.emails";
 import { sendAdminInviteEmail } from "@/modules/admin/admin.emails";
+import { sendContactNotificationEmail } from "@/modules/contact/contact.emails";
+import { sendNewsletterWelcomeEmail } from "@/modules/newsletter/newsletter.emails";
 
 export const emailQueue = new Queue("email-queue", {
 	connection: redis as any,
@@ -29,8 +31,8 @@ export const emailWorker = new Worker(
 				);
 				throw new Error("Failed to send newsletter welcome email");
 			}
-    }
-		
+		}
+
 		if (job.name === "admin-invite-email") {
 			const result = await sendAdminInviteEmail(backgroundLogger, {
 				email: job.data.email,
@@ -44,6 +46,21 @@ export const emailWorker = new Worker(
 					"Failed to send admin invite email",
 				);
 				throw new Error("Failed to send admin invite email");
+			}
+		}
+
+		if (job.name === "contact-notification-email") {
+			const result = await sendContactNotificationEmail(
+				backgroundLogger,
+				job.data,
+			);
+
+			if (!result.success) {
+				backgroundLogger.error(
+					{ error: result?.error },
+					"Failed to send contact notification email",
+				);
+				throw new Error("Failed to send contact notification email");
 			}
 		}
 	},

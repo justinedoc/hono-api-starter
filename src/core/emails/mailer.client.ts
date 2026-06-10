@@ -8,6 +8,7 @@ export type SendEmailOptions = {
 	subject: string;
 	react: ReactNode;
 	from?: string;
+	headers?: Record<string, string>;
 };
 
 export const sendEmail = async (logger: Logger, options: SendEmailOptions) => {
@@ -16,6 +17,7 @@ export const sendEmail = async (logger: Logger, options: SendEmailOptions) => {
 			{
 				to: options.to,
 				subject: options.subject,
+				headers: options.headers,
 				message: options.react?.toString(),
 			},
 			"Skipped sending email in development mode.",
@@ -32,6 +34,7 @@ export const sendEmail = async (logger: Logger, options: SendEmailOptions) => {
 			from: options.from || defaultFrom,
 			to: Array.isArray(options.to) ? options.to : [options.to],
 			subject: options.subject,
+			headers: options.headers,
 			react: options.react,
 		});
 
