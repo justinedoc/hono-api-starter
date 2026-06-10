@@ -21,6 +21,7 @@ export const sendInvite = createRoute({
 	request: {
 		body: jsonContentRequired(insertAdminInvitation, "Invitation details"),
 	},
+	security: [{ BearerAuth: [] }],
 	responses: {
 		[httpStatusCodes.CREATED]: jsonContent(
 			createMessageSchema("Invitation sent successfully", true),

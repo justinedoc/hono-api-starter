@@ -21,7 +21,7 @@ export default function configureOpenAPI(router: AppOpenAPI, version: string) {
 				url: basePath,
 				description: "Local Environment",
 			},
-			{ url: `https://api.example.com${basePath}`, description: "Production" }
+			{ url: `https://api.example.com${basePath}`, description: "Production" },
 		],
 	});
 
@@ -29,7 +29,8 @@ export default function configureOpenAPI(router: AppOpenAPI, version: string) {
 		"/reference",
 		Scalar(() => {
 			return {
-				theme: "kepler",
+				theme: "deepSpace",
+				layout: "classic",
 				pageTitle: `Project Documentation ${version.toUpperCase()}`,
 				sources: [
 					{
