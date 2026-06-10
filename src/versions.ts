@@ -1,14 +1,16 @@
-import { OpenAPIHono } from "@hono/zod-openapi";
 import configureOpenAPI from "@/core/lib/configure-openapi";
-import type { AppBindings } from "@/core/lib/types";
+import { createRouter } from "@/core/lib/create-app";
+import adminRouter from "@/modules/admin/admin.router";
 import authRouter from "@/modules/auth/auth.router";
 import newsletterRouter from "@/modules/newsletter/newsletter.router";
 
 export function getV1Routes() {
-	const router = new OpenAPIHono<AppBindings>();
+	const router = createRouter();
+
+	router.route("/", newsletterRouter);
+	router.route("/", adminRouter);
 
 	router.route("/auth", authRouter);
-	router.route("/", newsletterRouter);
 
 	configureOpenAPI(router, "v1");
 
