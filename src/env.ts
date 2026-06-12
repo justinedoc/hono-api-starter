@@ -4,6 +4,7 @@ import { prettifyError, z } from "zod";
 config();
 
 const baseEnvSchema = z.object({
+	PORT: z.coerce.number().default(3000),
 	NODE_ENV: z
 		.enum(["development", "production", "test"])
 		.default("development"),

@@ -2,6 +2,7 @@ import { serve } from "@hono/node-server";
 import { activeWorkers } from "@/core/jobs/registry";
 import createApp from "@/core/lib/create-app";
 import { redis } from "@/core/redis";
+import { env } from "@/env";
 import { getV1Routes } from "@/versions";
 
 const app = createApp();
@@ -11,7 +12,7 @@ const routes = app.route("/v1", getV1Routes());
 const server = serve(
 	{
 		fetch: app.fetch,
-		port: 3000,
+		port: env.PORT,
 	},
 	(info) => {
 		console.log(`Server is running on http://localhost:${info.port}`);
