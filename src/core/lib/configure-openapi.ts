@@ -1,6 +1,6 @@
 import { Scalar } from "@scalar/hono-api-reference";
 import type { AppOpenAPI } from "@/core/lib/types";
-import packageJSON from "../../../package.json";
+import packageJSON from "../../../package.json" with { type: "json" };
 
 export default function configureOpenAPI(router: AppOpenAPI, version: string) {
 	router.openAPIRegistry.registerComponent("securitySchemes", "BearerAuth", {
